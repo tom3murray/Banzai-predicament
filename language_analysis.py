@@ -1,5 +1,7 @@
 import os
 import pandas as pd
+import spacy
+
 
 os.chdir('../Banzai-predicament')
 
@@ -20,12 +22,14 @@ for filename in os.listdir(directory):
             
             address_dataframe.loc[len(address_dataframe)] = address_entry
 
-            
-            
-
-'''            
 nlp = spacy.load("en_core_web_sm")
 nlp.max_length = 10000000
+docs = list(nlp.pipe(address_dataframe['text'], disable = ['ner', 'parser']))
 
-docs = list(nlp.pipe(docs_df['text'], disable = ['ner', 'parser']))
-'''
+#%%
+lemmas = []
+
+for doc in docs:
+    for lemma in doc:
+        lemmas.append(lemma)
+        
