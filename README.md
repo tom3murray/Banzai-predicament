@@ -28,10 +28,10 @@ Contains all the data for our project.
 File name | Description | Reference
 --- | --- | ---
 addresses | this file contains txt files labelled as years. Each txt file represents one state of the union speech; the title is the year it was delivered; the contents is just the speech. | [2]
-all_congresses | this file has each individual sitting US congress as observations. Other variables are included such as the parties in that congress (by house) and the proportion of members therein. | 
-presidential_variables | this file has each individual US president as observations. Other variables include his party and birthdate (to calculate age at time of speech). | 
-annual variables | this file contains each year of US history (integers) as observations. Other variables are binaries such as recession (whether we were in a recession in that year), wartime, and several modified versions of the wartime binary (excluding certain wars such as the Indian War, which was technically waged at small scale for 80 years). | 
-full_data | this file was produced by the analysis_variable_cleaning.py file. It contains all the variables that were used throughout the processing of our dataset, including many irrelevant to our regression. | 
+all_congresses | this file has each individual sitting US congress as observations. Other variables are included such as the parties in that congress (by house) and the proportion of members therein. | [3] [4]
+presidential_variables | this file has each individual US president as observations. Other variables include his party and birthdate (to calculate age at time of speech). | [5]
+annual variables | this file contains each year of US history (integers) as observations. Other variables are binaries such as recession (whether we were in a recession in that year), wartime, and several modified versions of the wartime binary (excluding certain wars such as the Indian War, which was technically waged at small scale for 80 years). | [6] [7] [8] [9]
+full_data | this file was produced by the analysis_variable_cleaning.py file. It contains all the variables that were used throughout the processing of our dataset, including many irrelevant to our regression. |
 regression_data | this file was also produced by the analysis_variable_cleaning.py file. It is a subset of full_data containing only variables needed for the final regression analysis. | 
 
 ### Figures
@@ -45,14 +45,16 @@ figure x | description and importance of figure x are ...
 
 [2] http://stateoftheunion.onetwothree.net/texts/index.html
 
-[] 
+[3] https://history.house.gov/Institution/Party-Divisions/Party-Divisions/
 
-[] 
+[4] https://www.senate.gov/history/partydiv.htm
 
-[] 
+[5] https://www.britannica.com/place/United-States/Presidents-of-the-United-States
 
-[] 
+[6] https://www.thebalancemoney.com/the-history-of-recessions-in-the-united-states-3306011
 
-[] 
+[7] https://fred.stlouisfed.org/series/JHDUSRGDPBR
 
-[] 
+[8] https://apnews.com/article/c7ff3b454064853dc2ca78a2ee186f5f
+
+[9] https://www.va.gov/opa/publications/factsheets/fs_americas_wars.pdf
