@@ -24,7 +24,6 @@ pre-analysis_variable_cleaning: this code takes all of the data obtained by the 
 OLS_regression_code: this code executes an OLS regression on the regression_data file, trying to find if there is a correlation between whether the country is at war and the positivitiy of a state of the union speech.
 
 ### Data
-Contains all the data for our project.
 File name | Description | Reference
 --- | --- | ---
 addresses | this file contains txt files labelled as years. Each txt file represents one state of the union speech; the title is the year it was delivered; the contents is just the speech. | [2]
