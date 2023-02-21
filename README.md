@@ -15,7 +15,7 @@ As mentioned, our code is comptaible with use on any device containing a python 
 ### src Folder Files
 Contains the source code for our project.
 
-web_scraper: this code scrapes data from the internet. Specifically, it scrapes data from [this website](http://stateoftheunion.onetwothree.net/texts/index.html) to give us data on all of the state of the union addresses from 1790 to 2021.
+web_scraper: this code scrapes data from the internet. Specifically, it scrapes data from [this website](http://stateoftheunion.onetwothree.net/texts/index.html) [1] to give us data on all of the state of the union addresses from 1790 to 2021.
 
 speech_sentiment_analysis: this code analyzes the text of every state of the union speech, assigning it some float value 1-10. It then gets attached to the dataframe obtained from the web_scraper files.
 
@@ -27,7 +27,7 @@ OLS_regression_code: this code executes an OLS regression on the regression_data
 Contains all the data for our project.
 File name | Description | Reference
 --- | --- | ---
-addresses | this file contains txt files labelled as years. Each txt file represents one state of the union speech; the title is the year it was delivered; the contents is just the speech. | 
+addresses | this file contains txt files labelled as years. Each txt file represents one state of the union speech; the title is the year it was delivered; the contents is just the speech. | [2]
 all_congresses | this file has each individual sitting US congress as observations. Other variables are included such as the parties in that congress (by house) and the proportion of members therein. | 
 presidential_variables | this file has each individual US president as observations. Other variables include his party and birthdate (to calculate age at time of speech). | 
 annual variables | this file contains each year of US history (integers) as observations. Other variables are binaries such as recession (whether we were in a recession in that year), wartime, and several modified versions of the wartime binary (excluding certain wars such as the Indian War, which was technically waged at small scale for 80 years). | 
@@ -41,3 +41,18 @@ figure x | description and importance of figure x are ...
 
 
 ### References
+[1] http://stateoftheunion.onetwothree.net/texts/index.html
+
+[2] http://stateoftheunion.onetwothree.net/texts/index.html
+
+[] 
+
+[] 
+
+[] 
+
+[] 
+
+[] 
+
+[] 
