@@ -35,5 +35,9 @@ full_data | this file was produced by the analysis_variable_cleaning.py file. It
 regression_data | this file was also produced by the analysis_variable_cleaning.py file. It is a subset of full_data containing only variables needed for the final regression analysis. | 
 
 ### Figures
+Figure name | Description and importance
+--- | ---
+figure x | description and importance of figure x are ...
+
 
 ### References
