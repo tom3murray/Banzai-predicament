@@ -43,7 +43,8 @@ for idx, link in enumerate(sou_links):
     presidents.append(president)
     dates.append(date)
     speeches.append(speech)
+    print(speech)
+    print('-'*15)
+    #all_data = all_data.append({'President': president, 'Date': date, 'Speech': speech}, ignore_index=True)
 
-    all_data = all_data.append({'President': president, 'Date': date, 'Speech': speech}, ignore_index=True)
-
-all_data.to_excel('./all_name_data.xlsx', index=False)
+#all_data.to_excel('./all_name_data.xlsx', index=False)
