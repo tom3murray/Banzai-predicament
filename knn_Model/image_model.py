@@ -14,11 +14,9 @@ from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.model_selection import cross_val_score
 import matplotlib.pyplot as plt
 
-# Define the directories where the images are located
-# bald_dir = 'C:/Users/Lyle_/Desktop/4 Yr Sem 2/DS/Banzai-predicament/data/Validation/Bald'
-# not_bald_dir = 'C:/Users/Lyle_/Desktop/4 Yr Sem 2/DS/Banzai-predicament/data/Validation/NotBald'
-bald_dir = 'C:/Users/Lyle_/Desktop/4 Yr Sem 2/DS/Validation/Bald'
-not_bald_dir = 'C:/Users/Lyle_/Desktop/4 Yr Sem 2/DS/Validation/NotBald'
+# Define the directories where the images are located (EDIT PATHS TO FIT YOUR COMPUTER) 
+bald_dir = 'C:/Users/Lyle_/Desktop/4 Yr Sem 2/DS/Banzai-predicament/knn_Model/Bald'
+not_bald_dir = 'C:/Users/Lyle_/Desktop/4 Yr Sem 2/DS/Banzai-predicament/knn_Model/NotBald'
 
 # Define the image size that the model expects
 IMG_SIZE = (64, 64)
