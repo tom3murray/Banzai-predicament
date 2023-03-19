@@ -1,7 +1,7 @@
 import cv2
 import os
 import numpy as np
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.model_selection import cross_val_score
@@ -9,7 +9,6 @@ import matplotlib.pyplot as plt
 
 # Get the directory where the script is saved
 script_dir = os.path.dirname(os.path.abspath('knn_Model'))
-
 
 # Set the working directory to the script directory
 os.chdir(script_dir)
@@ -20,9 +19,6 @@ not_bald_dir = 'NotBald'
 
 # Define the image size that the model expects
 IMG_SIZE = (64, 64)
-
-# Define the number of neighbors to consider
-K = 5
 
 # Load the bald images
 bald_images = []
@@ -46,42 +42,16 @@ y = np.array([1] * len(bald_images) + [0] * len(not_bald_images))
 
 # Split the dataset into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-#%%
 
-# Find the optimal k value using cross-validation
-k_values = list(range(1, 21))
-cv_scores = []
-for k in k_values:
-    knn = KNeighborsClassifier(n_neighbors=k)
-    scores = cross_val_score(knn, X_train, y_train, cv=5, scoring='f1')
-    cv_scores.append(scores.mean())
+# Create a Random Forest classifier and fit it to the training data
+rf = RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42)
+rf.fit(X_train, y_train)
 
-optimal_k = k_values[cv_scores.index(max(cv_scores))]
-print("Optimal k value:", optimal_k)
+# Evaluate the model on the testing data
+y_pred = rf.predict(X_test)
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
 
-
-# Plot the cross-validation results
-plt.plot(k_values, cv_scores)
-plt.xlabel('Number of neighbors (k)')
-plt.ylabel('F1 score')
-plt.title('Cross-validation results')
-plt.show()
-# Optimal k = 5-6
-#%%
-# Create the KNN classifier
-knn = KNeighborsClassifier(n_neighbors=K)
-
-# Train the classifier
-knn.fit(X_train, y_train)
-
-# # Test the classifier
-# accuracy = knn.score(X_test, y_test)
-# print(f'Test accuracy: {accuracy}')
-
-# Test the classifier
-y_pred = knn.predict(X_test)
-
-# Print the confusion matrix and classification report
-print(f'Confusion matrix:\n{confusion_matrix(y_test, y_pred)}')
-print(f'Classification report:\n{classification_report(y_test, y_pred)}')
-
+# Perform cross-validation and print the mean accuracy score
+scores = cross_val_score(rf, X, y, cv=5)
+print(f"Cross-validation mean accuracy: {np.mean(scores)}")
