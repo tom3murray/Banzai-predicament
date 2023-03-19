@@ -2,6 +2,7 @@ import cv2
 import os
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
+from image_model import link_detect
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.model_selection import cross_val_score
@@ -39,6 +40,7 @@ X = np.array(bald_images + not_bald_images)
 
 # Create the corresponding labels for the dataset (1 for bald, 0 for not bald)
 y = np.array([1] * len(bald_images) + [0] * len(not_bald_images))
+link_detect()
 
 # Split the dataset into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)

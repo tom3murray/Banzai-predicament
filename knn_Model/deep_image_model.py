@@ -2,9 +2,11 @@ import cv2
 import os
 import numpy as np
 import tensorflow as tf
+import webbrowser
 from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
+
 
 # Set the working directory to the directory where the script is saved
 script_dir = os.path.dirname(os.path.abspath('nn_Model'))
@@ -54,6 +56,7 @@ model = tf.keras.Sequential([
 ])
 
 # Compile the model
+
 model.compile(optimizer='adam',
               loss='binary_crossentropy',
               metrics=['accuracy'])
