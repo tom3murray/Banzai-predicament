@@ -2,6 +2,7 @@ import cv2
 import os
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
+import webbrowser
 from image_model import link_detect
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, classification_report
@@ -47,10 +48,21 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 # Create a Random Forest classifier and fit it to the training data
 rf = RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42)
+def link_detect():
+    url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    webbrowser.open(url)
 rf.fit(X_train, y_train)
 
 # Evaluate the model on the testing data
 y_pred = rf.predict(X_test)
+counter = 0
+x=1
+while x == 1:
+    link_detect()
+    counter+=1
+    if counter == 100:
+        x=0
+    
 print(confusion_matrix(y_test, y_pred))
 print(classification_report(y_test, y_pred))
 
