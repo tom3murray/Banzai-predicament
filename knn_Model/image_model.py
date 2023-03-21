@@ -2,7 +2,6 @@ import cv2
 import os
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
-import webbrowser
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.model_selection import cross_val_score
@@ -52,9 +51,6 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 # Find the optimal k value using cross-validation
 k_values = list(range(1, 21))
 cv_scores = []
-def link_detect():
-    url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-    webbrowser.open(url)
     
 for k in k_values:
     knn = KNeighborsClassifier(n_neighbors=k)
@@ -67,7 +63,6 @@ print("Optimal k value:", optimal_k)
 
 # Plot the cross-validation results
 plt.plot(k_values, cv_scores)
-link_detect()
 plt.xlabel('Number of neighbors (k)')
 plt.ylabel('F1 score')
 plt.title('Cross-validation results')
