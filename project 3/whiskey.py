@@ -3,7 +3,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from statsmodels.tsa.stattools import adfuller
 from statsmodels.tsa.seasonal import seasonal_decompose
+import os
 #from pmdarima.arima import auto_arima
+
+
+os.chdir('C:/Users/Lyle_/Desktop/4 Yr Sem 2/DS/Banzai-predicament/project 3/')
+os.getcwd()
+
 
 # read in the two Excel files
 whiskey = pd.read_excel('Irish Whiskey Sales by Volume.xlsx')
@@ -37,22 +43,6 @@ incomes_total = incomes_total.to_frame().reset_index()
 
 for country, group in grouped:
     plt.plot(group['Year'], group['Total Cases'], label=country)
-
-# Set the title and labels for the plot
-plt.title('Total Irish Whiskey Imported by Country')
-plt.xlabel('Year')
-plt.ylabel('Total Cases')
-
-# Add a legend to the plot
-plt.legend()
-# Show the plot
-plt.show()
-
-regions_grouped = regions_total.groupby('Region')
-incomes_grouped = incomes_total.groupby('Income')
-
-for region, group in regions_grouped:
-    plt.plot(group['Year'], group['Total Cases'], label=region)
     
 # Set the title and labels for the plot
 plt.title('Total Irish Whiskey Imported by Country')
@@ -63,13 +53,37 @@ plt.ylabel('Total Cases')
 plt.legend()
 # Show the plot
 plt.show()
+
+
+
+
+regions_grouped = regions_total.groupby('Region')
+incomes_grouped = incomes_total.groupby('Income')
+
+
+
+
+for region, group in regions_grouped:
+    plt.plot(group['Year'], group['Total Cases'], label=region)
+    
+# Set the title and labels for the plot
+plt.title('Total Irish Whiskey Imported by Region')
+plt.xlabel('Year')
+plt.ylabel('Total Cases')
+
+# Add a legend to the plot
+plt.legend()
+# Show the plot
+plt.show()
+
+
 
 
 for income, group in incomes_grouped:
     plt.plot(group['Year'], group['Total Cases'], label=income)
     
 # Set the title and labels for the plot
-plt.title('Total Irish Whiskey Imported by Country')
+plt.title('Total Irish Whiskey Imported by AVG Income')
 plt.xlabel('Year')
 plt.ylabel('Total Cases')
 
@@ -77,3 +91,42 @@ plt.ylabel('Total Cases')
 plt.legend()
 # Show the plot
 plt.show()
+#%%
+
+
+# Aggregate total cases for each country
+total_cases_by_country = merged_df.groupby('Country')['Cases'].sum().reset_index()
+
+# Sort by total cases in descending order
+sorted_cases = total_cases_by_country.sort_values('Cases', ascending=False)
+
+# Get the top 8 countries
+top_8_countries = sorted_cases.head(8)
+
+# Filter merged_df to include only the top 8 countries
+filtered_df = merged_df[merged_df['Country'].isin(top_8_countries['Country'])]
+
+# Group by 'Country' and 'Year', then sum the 'Cases'
+cases_by_year = filtered_df.groupby(['Country', 'Year'])['Cases'].sum().reset_index()
+
+# Create a line plot
+plt.figure(figsize=(12, 6))
+
+for country in top_8_countries['Country']:
+    country_data = cases_by_year[cases_by_year['Country'] == country]
+    plt.plot(country_data['Year'], country_data['Cases'], label=country)
+
+plt.xlabel('Year')
+plt.ylabel('Cases')
+plt.title('Cases per Year for Top 8 Countries')
+plt.legend()
+plt.show()
+
+#%%
+
+
+
+
+
+
+
