@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from statsmodels.tsa.stattools import adfuller
 from statsmodels.tsa.seasonal import seasonal_decompose
+from statsmodels.stats.diagnostic import acorr_ljungbox
+from statsmodels.tsa.stattools import acf
 import os
 #from pmdarima.arima import auto_arima
 
@@ -92,7 +94,7 @@ plt.legend()
 # Show the plot
 plt.show()
 #%%
-
+# TIME SERIES GRAPH OF TOP 8 COUNTRIES 
 
 # Aggregate total cases for each country
 total_cases_by_country = merged_df.groupby('Country')['Cases'].sum().reset_index()
@@ -123,6 +125,67 @@ plt.legend()
 plt.show()
 
 #%%
+# STATIONARY TESTING 
+
+# Group the data by 'Region' and 'Year', and sum the 'Cases'
+cases_by_region_year = merged_df.groupby(['Region', 'Year'])['Cases'].sum().reset_index()
+
+# Get the unique regions
+unique_regions = cases_by_region_year['Region'].unique()
+
+# Define a function to perform the ADF test and interpret the results
+def test_stationarity(timeseries):
+    result = adfuller(timeseries)
+    p_value = result[1]
+    
+    if p_value < 0.05:
+        return f"Stationary (p-value: {p_value})"
+    else:
+        return f"Non-stationary (p-value: {p_value})"
+
+# Test the stationarity of the time series data for each region
+stationarity_results = {}
+for region in unique_regions:
+    region_data = cases_by_region_year[cases_by_region_year['Region'] == region]
+    stationarity_results[region] = test_stationarity(region_data['Cases'])
+
+# Print the results
+for region, result in stationarity_results.items():
+    print(f"{region}: {result}")
+    
+
+#%%
+# AUTOCORRELATION TESTING 
+
+
+# Group the data by 'Region' and 'Year', and sum the 'Cases'
+cases_by_region_year = merged_df.groupby(['Region', 'Year'])['Cases'].sum().reset_index()
+
+# Get the unique regions
+unique_regions = cases_by_region_year['Region'].unique()
+
+# Define a function to perform the Ljung-Box test and interpret the results
+def test_autocorrelation(timeseries, lags=None):
+    result = acorr_ljungbox(timeseries, lags=lags, return_df=True)
+    p_value = result['lb_pvalue'].iloc[-1]
+    
+    if p_value < 0.05:
+        return f"Significant autocorrelation (p-value: {p_value})"
+    else:
+        return f"No significant autocorrelation (p-value: {p_value})"
+
+# Test the autocorrelation of the time series data for each region
+autocorrelation_results = {}
+autocorrelations = {}
+for region in unique_regions:
+    region_data = cases_by_region_year[cases_by_region_year['Region'] == region]
+    autocorrelation_results[region] = test_autocorrelation(region_data['Cases'])
+    autocorrelations[region] = acf(region_data['Cases'], nlags=10, fft=True)
+
+# Print the results
+for region, result in autocorrelation_results.items():
+    print(f"{region}: {result}")
+    print(f"Autocorrelations: {autocorrelations[region]}")
 
 
 
