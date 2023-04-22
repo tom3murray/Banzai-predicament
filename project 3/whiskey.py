@@ -1,15 +1,22 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import statsmodels.api as sm
 from statsmodels.tsa.stattools import adfuller
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.stats.diagnostic import acorr_ljungbox
 from statsmodels.tsa.stattools import acf
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler
+from pmdarima.arima import auto_arima
+from math import sqrt
+from sklearn.metrics import mean_squared_error
+
 import os
 #from pmdarima.arima import auto_arima
 
 
-os.chdir('C:/Users/Lyle_/Desktop/4 Yr Sem 2/DS/Banzai-predicament/project 3/')
+#os.chdir('C:/Users/Lyle_/Desktop/4 Yr Sem 2/DS/Banzai-predicament/project 3/')
 os.getcwd()
 
 
@@ -155,7 +162,7 @@ for region, result in stationarity_results.items():
     
 
 #%%
-# AUTOCORRELATION TESTING 
+# AUTOCORRELATION AND DECOMPOSITION TESTING 
 
 
 # Group the data by 'Region' and 'Year', and sum the 'Cases'
@@ -174,7 +181,7 @@ def test_autocorrelation(timeseries, lags=None):
     else:
         return f"No significant autocorrelation (p-value: {p_value})"
 
-# Test the autocorrelation of the time series data for each region
+# Test the autocorrelation and decomposition of the time series data for each region
 autocorrelation_results = {}
 autocorrelations = {}
 for region in unique_regions:
@@ -182,13 +189,116 @@ for region in unique_regions:
     autocorrelation_results[region] = test_autocorrelation(region_data['Cases'])
     autocorrelations[region] = acf(region_data['Cases'], nlags=10, fft=True)
 
+    ### CODE THAT ALSO PRODUCES GRAPHS FOR DECOMPOSITION.
+    ### NOTE THAT DECOMPOSITION BREAKS DOWN THE VARIATION INTO 3 PARTS: TREND, SEASONAL,
+    ### AND RESIDUAL. SEASONAL AND RESIDUAL ARE FLAT LINES IN EVERY GRAPH; 
+    ### NO VARIATION IN THE DATA IS ATTRIBUTABLE TO THEM.
+    # Drop region column
+    region_data = region_data.drop('Region', axis=1)
+
+    # Set "Year" column as the index
+    region_data = region_data.set_index('Year')
+
+    # Perform seasonal decomposition
+    decomposition = seasonal_decompose(region_data, model='additive', period=1)
+
+    # Get the trend, seasonal and residual components
+    trend = decomposition.trend
+    seasonal = decomposition.seasonal
+    residual = decomposition.resid
+
+    # Plot the decomposition components
+    fig, ax = plt.subplots(4, 1, figsize=(10, 10))
+    ax[0].plot(region_data)
+    ax[0].set_ylabel('Original')
+    ax[1].plot(trend)
+    ax[1].set_ylabel('Trend')
+    ax[2].plot(seasonal)
+    ax[2].set_ylabel('Seasonal')
+    ax[3].plot(residual)
+    ax[3].set_ylabel('Residual')
+    plt.show()
+
 # Print the results
 for region, result in autocorrelation_results.items():
     print(f"{region}: {result}")
     print(f"Autocorrelations: {autocorrelations[region]}")
+    
 
+#%%
+# ARIMA Forecasting
 
+# Group the data by 'Region' and 'Year', and sum the 'Cases'
+cases_by_region_year = merged_df.groupby(['Region', 'Year'])['Cases'].sum().reset_index()
 
+# Get the unique regions
+unique_regions = cases_by_region_year['Region'].unique()
+
+ARIMAs = {}
+for region in unique_regions:
+
+    region_data = cases_by_region_year[cases_by_region_year['Region'] == region]
+
+    # Drop region column
+    region_data = region_data.drop('Region', axis=1)
+
+    # Set "Year" column as the index
+    region_data = region_data.set_index('Year')
+
+    region_data.index = pd.to_datetime(region_data.index, format="%Y")
+    
+    # Fit the ARIMA model
+    arima_model = sm.tsa.ARIMA(region_data, order=(1, 1, 1)).fit()
+    
+    # Forecast the next 5 years
+    arima_forecast = arima_model.forecast(steps=15)
+    
+    # Print the forecasted values for the next 5 years
+    print(arima_forecast)
+    
+    ARIMAs[region] = arima_forecast
+    
+
+#%%
+# Another ARIMA Forecasting
+
+# Group the data by 'Region' and 'Year', and sum the 'Cases'
+cases_by_region_year = merged_df.groupby(['Region', 'Year'])['Cases'].sum().reset_index()
+
+# Get the unique regions
+unique_regions = cases_by_region_year['Region'].unique()
+
+ARIMAs_2 = {}
+for region in unique_regions:
+
+    region_data = cases_by_region_year[cases_by_region_year['Region'] == region]
+
+    # Drop region column
+    region_data = region_data.drop('Region', axis=1)
+    
+    # Set "Year" column as the index
+    region_data = region_data.set_index('Year')
+
+    region_data.index = pd.to_datetime(region_data.index, format="%Y")
+
+    train = region_data[region_data.index < pd.to_datetime("2010", format='%Y')]
+    test = region_data[region_data.index >= pd.to_datetime("2010", format='%Y')]
+                
+    plt.plot(train['Cases'], color = "black")
+    plt.plot(test['Cases'], color = "red")
+    
+    plt.title("Train/Test split for Whiskey Data")
+    plt.ylabel("Cases")
+    plt.xlabel('Year')
+    sns.set()
+    plt.show()
+
+    model = auto_arima(train['Cases'], trace=True, error_action='ignore', suppress_warnings=True)
+    model.fit(train['Cases'])
+    forecast = model.predict(n_periods=len(test))
+
+    rms = sqrt(mean_squared_error(test['Case'],forecast))
+    print("RMSE: ", rms)
 
 
 
