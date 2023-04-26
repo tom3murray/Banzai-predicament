@@ -8,48 +8,63 @@ DS 4002 Projects
 
 ## SRC
 ### Installing/Building our code
-Our code can be installed by anyone with access to this repo and run on their computer with a few unique adjustments. Users will need to edit the file path's for the "bald" and "notbald" datasets in each of the python scripts for the classification models. The path's should lead to the "Bald" and "NotBald" folders within the "ProjectData" folder within the general "Data" folder. 
+Our code can be installed by anyone with access to this repo and run on their computer with a few unique adjustments. Users will need to edit the file path's for the "CLASS" and "Irish Whiskey Sales by Volume" excel files in the "whiskey" python script to lead to the files as located on their own computer. 
 
 ### Usage of our code
 As mentioned, our code is comptaible with use on any device containing a python environment. Just clone the repo, open up your environment, open our code, change the file paths, and hit "Run". We allow anyone and everyone to use and copy our code.
 
 ### src Folder Files
-knn_model: runs our k-Nearest-Neighbor model on the ProjectData
-
-decision_tree_model: runs our decision tree model on the ProjectData
-
-deep_image_model: runs our CNN model on the ProjectData; also plots Accuracy and Loss of our model
+whiskey: runs the stationary, decomposition, and autocorrelation tests; also runs ARIMA forecasting models 
 
 ## Data
 File name | Description 
 --- | --- 
-train |original Train split of data as downloaded directly from Kaggle; contains ~160,000 images split between a Bald and NotBald folder; 2% bald / 98% not bald
-test | original Test split of data as downloaded directly from Kaggle; contains ~20,000 images split between a Bald and NotBald folder; 2% bald / 98% not bald
-validation | original Validation split of data as downloaded directly from Kaggle; contains ~25,000 images split between a Bald and NotBald folder; 2% bald / 98% not bald
-ProjectData | dataset we fabricated for our project use which is significantly smaller to account for our limited processing power; contains 2,000 images split between a Bald and NotBald folder; 50% bald / 50% not bald
+CLASS | dataset from the world bank with each country, its region, and its income level
+Irish Whiskey Sales by Volume | dataset from Data World with time series country data on Irish Whiskey imports by year since 1990; includes quality of whiskey and number of cases
 
-Kaggle data from: https://www.kaggle.com/datasets/ashishjangra27/bald-classification-200k-images-celeba
+Data from: https://data.world/makeovermonday/2018w11-growth-in-irish-whiskey-sales
 
 ## Figures
 Figure name | Description and importance
 --- | ---
-CNN_Accuracy | line graph of CNN model accuracy by epoch
-CNN_Loss | line graph of CNN model loss by epoch
-CNN_model_results | confusion matrix and evaluation metrics for CNN model on test data
-DT_model_results | confusion matrix and evaluation metrics for DT (decision tree) model on test data
-knn_model_results | confusion matrix and evaluation metrics for knn model on test data
-k_cross_val | line graph of knn model f1 score graphed against different k
+stationary_resultsXregion | stationarity results X region
+autocorrelation_resultsXregion | autocorrelation results X region
+decomp_X | decomposition results X region
+forecast_2012_2016_X | forecast validation of data from 2012-2016 X region
+forecast_X | forecast data from 2016-2030 (unknown values) X region
+total_whiskeyXCountry | timeseries visualization for top 8 countries 
+total_whiskeyXIncome | timeseries visualization for all income levels 
+total_whiskeyXRegion | timeseries visualization for all regions 
+total_whiskeyXRegion+Forecast | forecast data from 2016-2030 (unknown values) OVERALL 
+total_whiskeyXRegion2012-2016+Forecast | forecast validation of data from 2012-2016 OVERALL
+
+
+
 
 
 ## References
-[1] “Convolutional Neural Network (CNN) | TensorFlow Core.” n.d. TensorFlow. Accessed March 29, 2023. https://www.tensorflow.org/tutorials/images/cnn.
+[1] Inc, Gallup. 2022. “What Percentage of Americans Drink Alcohol?” Gallup.Com. December 29,
+2022. https://news.gallup.com/poll/467507/percentage-americans-drink-alcohol.aspx.
+[2] “U.S. Consumption of Distilled Spirits by Segment 2022.” n.d. Statista. Accessed April 4, 2023.
+https://www.statista.com/statistics/463077/us-consumption-share-of-distilled-spirits-by-categor
+y/.
+[3] Sood, Suemedha. n.d. “A Guide to the Lingo and History of Whiskey.” Accessed April 4, 2023.
+https://www.bbc.com/travel/article/20110318-travelwise-a-guide-to-the-lingo-and-history-of-whis
+key.
+[4] “Irish Whiskey Is Back from the Abyss - and Booming. Here’s Why.” 2018. Australian Financial
+Review. March 15, 2018.
+https://www.afr.com/life-and-luxury/food-and-wine/irish-whiskey-is-back-from-the-abyss--and-bo
+oming-heres-why-20180309-h0x8hd.
+[5] Irish Whiskey Association [@IrishWhiskeyAsc]. 2019. “This Marks the 25th Irish Whiskey Distillery
+to Enter Operations.” Tweet. Twitter.
+https://twitter.com/IrishWhiskeyAsc/status/1138445908562104320.
+[6] “2018/W11: Growth in Irish Whiskey Sales - Dataset by Makeovermonday.” n.d. Data.World.
+https://data.world/makeovermonday/2018w11-growth-in-irish-whiskey-sales.
+[7] “World Bank Country and Lending Groups – World Bank Data Help Desk.” n.d.
+https://datahelpdesk.worldbank.org/knowledgebase/articles/906519.
+[8] Pierre, Sadrach. “A Guide to Time Series Analysis in Python.” Accessed April 4, 2023.
+https://builtin.com/data-science/time-series-python.
+10
+[9] “How to Create an ARIMA Model for Time Series Forecasting in Python - MachineLearningMastery.Com.” n.d. Accessed April 26, 2023. https://machinelearningmastery.com/arima-for-time-series-forecasting-with-python/.
 
-[2] Hall, Christine. 2018. “Could Baldness Predict Other Health Risks?” TMC News (blog). June 6, 2018. https://www.tmc.edu/news/2018/06/could-baldness-predict-other-health-risks/.
 
-[3] Gautam, Tanishq. 2020. “Create Your Own Image Classification Model Using Python and Keras.” Analytics Vidhya (blog). October 16, 2020. https://www.analyticsvidhya.com/blog/2020/10/create-image-classification-model-python-keras/.
-
-[4] V, Nithyashree. 2022. “Image Classification Using Machine Learning.” Analytics Vidhya (blog). January 20, 2022. https://www.analyticsvidhya.com/blog/2022/01/image-classification-using-machine-learning/.
-
-[5] “Psychology of Hair Loss Patients and Importance of Counseling - PMC.” n.d. Accessed March 29, 2023. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8719979/.
-
-[6] Rosebrock, Adrian. 2021. “Your First Image Classifier: Using k-NN to Classify Images.” PyImageSearch (blog). April 17, 2021. https://pyimagesearch.com/2021/04/17/your-first-image-classifier-using-k-nn-to-classify-images/.
